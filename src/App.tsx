@@ -10,6 +10,8 @@ const width = 1000
 const height = 1000
 
 
+const stars = {}
+
 interface IPosition {
   x: number
   y: number
@@ -62,6 +64,7 @@ const runGame = (canvas: any) => () => {
   elapsedTime = elapsedTime + 1
 
   const ogctx = canvas.getContext("2d")
+
   ogctx.clearRect(0, 0, width, height);
 
   if (elapsedTime === 1 || elapsedTime % 4 === 0) {
@@ -69,7 +72,6 @@ const runGame = (canvas: any) => () => {
   }
 
   Object.keys(planets).forEach(function (key) {
-    debugger
     const ctx = canvas.getContext("2d")
 
     const planet: IPlanet = planets[key];
@@ -143,7 +145,7 @@ const runGame = (canvas: any) => () => {
     ctx.fill()
     ctx.stroke()
   });
-  
+
   return null
 }
 
@@ -190,8 +192,29 @@ function createPlanet(parentPlanet?: IPlanet): IPlanet {
   return planet
 }
 let parentId
+
+
+function createStar(): IPlanet {
+
+  const star = {
+    id: guid(),
+    position: {
+      x: Math.floor((Math.random() * 1000) + 0),
+      y: Math.floor((Math.random() * 1000) + 0),
+    },
+    size: Math.floor((Math.random() * 2) + 1),
+    color: 'null'
+  }
+
+  star.color = `rgba(255,255,255, ${star.size === 2 ? '0.45' : '0.8'})` 
+
+
+  return star
+}
+
 const startGameLoop = (canvas: any) => {
 
+  // initialize planets
   const parentPlanet = createPlanet()
   parentPlanet.size = 25
   parentPlanet.position = {
@@ -205,17 +228,42 @@ const startGameLoop = (canvas: any) => {
   }
   planets[parentPlanet.id] = parentPlanet
   parentId = parentPlanet.id
+
+  // initialize stars
+  for (let i = 0; i < 200; ++i) {
+    const star = createStar()
+    stars[star.id] = star
+  }
+
   return setInterval(runGame(canvas), 1000 / FPS)
+}
+
+
+function renderBackground(canvas: any) {
+
+  Object.keys(stars).forEach(function (key) {
+    const ctx = canvas.getContext("2d")
+    const star = stars[key]
+    
+    ctx.beginPath()
+    ctx.arc(star.position.x, star.position.y, star.size, 0, 2 * Math.PI)
+    ctx.fillStyle = star.color
+    ctx.fill()
+    ctx.stroke()
+  })
+  return null
 }
 
 class App extends React.Component {
   canvas: any
+  bgCanvas: any
   gameLoop: any
 
 
 
   public componentDidMount() {
     this.gameLoop = startGameLoop(this.canvas)
+    renderBackground(this.bgCanvas)
   }
 
   public render() {
@@ -226,6 +274,8 @@ class App extends React.Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <canvas id={'mainCanvas'} width={width} height={height} ref={(ref) => this.canvas = ref} />
+        <canvas id={'backgroundCanvas'} width={width} height={height} ref={(ref) => this.bgCanvas = ref} />
+
       </div>
     );
   }

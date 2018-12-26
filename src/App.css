@@ -1,4 +1,13 @@
-canvas {
+#mainCanvas {
+  background: rgba(0,0,0,0);
+  z-index:100;
+  position: absolute;
+  left: 0;
+}
+
+#backgroundCanvas {
+  position:absolute;
+  left: 0;
   background: black;
 }
 
