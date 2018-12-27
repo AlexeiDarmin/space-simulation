@@ -1,15 +1,17 @@
-#mainCanvas {
+.mainCanvas {
   background: rgba(0,0,0,0);
   z-index:100;
   position: absolute;
   left: 0;
 }
 
-#backgroundCanvas {
+.backgroundCanvas {
   position:absolute;
   left: 0;
   background: black;
+  background-image: linear-gradient(to bottom right, black, #ff00ff26);
 }
+
 
 .App {
   text-align: center;

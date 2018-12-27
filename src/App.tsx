@@ -80,7 +80,7 @@ const runGame = (canvas: any) => () => {
     const numerator = parentSize - planet.size
     const denomerator = parentSize
     const r = parentSize * (parentSize / 2) * ((numerator / denomerator))
-    const theta = elapsedTime % (3600) / (numerator * 100 / denomerator)
+    const theta = elapsedTime % (36000) / (numerator * 100 / denomerator)
 
     let x
     let y
@@ -257,6 +257,12 @@ function renderBackground(canvas: any) {
 class App extends React.Component {
   canvas: any
   bgCanvas: any
+  canvas2: any
+  bgCanvas2: any
+  canvas3: any
+  bgCanvas3: any
+  canvas4: any
+  bgCanvas4: any
   gameLoop: any
 
 
@@ -264,6 +270,15 @@ class App extends React.Component {
   public componentDidMount() {
     this.gameLoop = startGameLoop(this.canvas)
     renderBackground(this.bgCanvas)
+
+    this.gameLoop = startGameLoop(this.canvas2)
+    renderBackground(this.bgCanvas2)
+
+    this.gameLoop = startGameLoop(this.canvas3)
+    renderBackground(this.bgCanvas3)
+
+    this.gameLoop = startGameLoop(this.canvas4)
+    renderBackground(this.bgCanvas4)
   }
 
   public render() {
@@ -273,9 +288,23 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <canvas id={'mainCanvas'} width={width} height={height} ref={(ref) => this.canvas = ref} />
-        <canvas id={'backgroundCanvas'} width={width} height={height} ref={(ref) => this.bgCanvas = ref} />
+        <div>
+          <canvas id={'mainCanvas'} className={'mainCanvas'} width={width} height={height} ref={(ref) => this.canvas = ref} />
+          <canvas id={'backgroundCanvas'} className={'backgroundCanvas'} width={width} height={height} ref={(ref) => this.bgCanvas = ref} />
+        </div>
+        <div>
+          <canvas id={'mainCanvas2'} className={'mainCanvas'} width={width} height={height} ref={(ref) => this.canvas2 = ref} style={{left: '1000px'}} />
+          <canvas id={'backgroundCanvas2'} className={'backgroundCanvas'} width={width} height={height} ref={(ref) => this.bgCanvas2 = ref} style={{left: '1000px'}} />
+        </div>
 
+                <div>
+          <canvas id={'mainCanvas3'} className={'mainCanvas'} width={width} height={height} ref={(ref) => this.canvas3 = ref} style={{top: '1000px'}} />
+          <canvas id={'backgroundCanvas3'} className={'backgroundCanvas'} width={width} height={height} ref={(ref) => this.bgCanvas3 = ref} style={{top: '1000px'}}/>
+        </div>
+        <div>
+          <canvas id={'mainCanvas4'} className={'mainCanvas'} width={width} height={height} ref={(ref) => this.canvas4 = ref} style={{left: '1000px', top: '1000px'}} />
+          <canvas id={'backgroundCanvas4'} className={'backgroundCanvas'} width={width} height={height} ref={(ref) => this.bgCanvas4 = ref} style={{left: '1000px', top: '1000px'}} />
+        </div>
       </div>
     );
   }
