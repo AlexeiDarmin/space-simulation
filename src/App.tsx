@@ -1,16 +1,14 @@
 import * as React from 'react';
 import './App.css';
 
-import { IPlanet, ISize } from './models';
-import { startGameLoop, initializePlanets, initializeStars } from './simulation';
+import { IPlanet, ISize, ISystem } from './models';
+import { startGameLoop, startGameLoop2, initializeSystem, initializeStars } from './simulation';
 import { renderBackground } from './helpers/drawing';
 
 export interface IState {
   canvasSize: ISize
-  planets: Map<string, IPlanet>
+  system: ISystem
   stars: Map<string, IPlanet>
-  sunlight: number
-  parentId: string
 }
 
 class App extends React.Component<{}, IState> {
@@ -23,24 +21,31 @@ class App extends React.Component<{}, IState> {
       width: window.innerWidth,
       height: window.innerHeight
     },
-    planets: null,
+    system: null,
     stars: null,
-    sunlight: null,
-    parentId: null
   }
 
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
 
-    const planets = initializePlanets(() => this.state)
+    const system = initializeSystem(() => this.state)
+    const system2 = initializeSystem(() => this.state)
+    const system3 = initializeSystem(() => this.state)
+    const system4 = initializeSystem(() => this.state)
+
+    const galaxy = {
+      systems: [system, system2, system3, system4]
+    }
+
     const stars = initializeStars(() => this.state)
 
-    this.gameLoop = startGameLoop(this.canvas, () => this.state, planets)
+    // this.gameLoop = startGameLoop(this.canvas, () => this.state, system)
+    this.gameLoop = startGameLoop2(this.canvas, () => this.state, galaxy)
     renderBackground(this.bgCanvas, stars)
 
     this.setState({
-      planets,
+      system,
       stars
     })
   }

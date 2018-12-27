@@ -16,3 +16,13 @@ export interface ISize {
   width: number,
   height: number
 }
+
+
+export interface ISystem {
+  centralStar: IPlanet
+  planets: Map<string, IPlanet>
+}
+
+export interface IGalaxy {
+  systems: Array<ISystem>
+}

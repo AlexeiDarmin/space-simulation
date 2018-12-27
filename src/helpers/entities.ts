@@ -1,6 +1,7 @@
 import { IPlanet } from 'src/models';
 import { getRandomColor } from './drawing';
 import { guid } from './misc';
+import { MAX_PLANET_SIZE } from 'src/constants';
 
 
 export function createPlanet(parentPlanet: IPlanet, width: number, height: number): IPlanet {
@@ -11,7 +12,7 @@ export function createPlanet(parentPlanet: IPlanet, width: number, height: numbe
       x: Math.floor((Math.random() * width) + 3),
       y: Math.floor((Math.random() * height) + 3),
     },
-    size: Math.floor((Math.random() * 15) + 3),
+    size: Math.floor((Math.random() * MAX_PLANET_SIZE / 3) + 3),
     parentPlanet: parentPlanet,
     color: getRandomColor()
   }
